@@ -1,0 +1,50 @@
+{
+    nodeList : {
+        "0" : {
+            name : "CiachoGłówka",
+            notes : "Nice notes with syntax",
+            dependsOn : []
+        },
+        "1" : {
+            name : "Lachonek",
+            notes : "Nice notes with syntax",
+            dependsOn : ["0"],
+            todo : {
+                "titile" : {
+                    startDate : "date",
+                    stopDate : "date",
+                    priority : "hi|low"
+                }
+            },
+            toBuy : {
+                "Kwiatki" : {
+                    price : "8",
+                    priority : "hi",
+                }
+            }
+        },
+        "2" : {
+            name : "Urodzinki",
+            notes : "Nice notes with syntax",
+            dependsOn : ["1"],
+            todo : {
+                "Kupić prezent" : {
+                    startDate : "date",
+                    stopDate : "date",
+                    priority : "hi"
+                },
+                "Piosenka" : {
+                    startDate : "date",
+                    stopDate : "date",
+                    priority : "low"
+                }
+            },
+            toBuy : {
+                "Prezent" : {
+                    price : "100",
+                    priority : "hi",
+                }
+            }
+        },
+    }
+}
