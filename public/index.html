@@ -1,0 +1,78 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <title>Ciacho mind map</title>
+   
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" href="stylesheets/style.css" type="text/css">
+    <link rel="stylesheet" href="stylesheets/jquery-ui.css" type="text/css">
+    <link rel="stylesheet" href="stylesheets/jquery-ui.structure.css" type="text/css">
+    <link rel="stylesheet" href="stylesheets/jquery-ui.theme.css" type="text/css">
+
+
+    <script src="javascripts/jquery-2.1.4.js"></script>
+    <script src="javascripts/jquery-ui.js"></script>
+    <script src="javascripts/d3.js"></script>
+    <script src="javascripts/ckeditor/ckeditor.js"></script>
+    <script src="javascripts/colorbrewer.js"></script>
+    <script src="javascripts/geometry.js"></script>
+    <script src="javascripts/script.js"></script>
+</head>
+
+<body onLoad="onLoadBody();">
+
+    <div id="jsonPanel" class="ui-widget ui-widget-content ui-corner-all">
+      <form action="" id="nodeProperties">
+      <input type="text" name="name" title="Visible name of node"></input>
+      <select name="type" title="Type of node"></select>
+      </form>
+      <a id="formUpdate" href="#">Update</a>
+      <hr/>
+      <form action="" id="newNode">
+      <input type="text" name="name" title="New visible name of node"></input>
+      <select name="type" title="Type of node"></select>
+      </form>
+      <a id="formCreateNew" href="#">Add subnode</a>
+      
+      <div style="position:absolute; bottom:0; left:0;">
+        <a id="uploadMindMap"  href="#">Upload</a>
+        <hr/>
+        <a id="removeNode"  href="#">Remove</a>
+        <hr/>
+        <a id="editNote"  href="#">Edit</a>
+        <a id="saveNote" href="#" style="display:none;">Save</a>
+      </div>
+    </div>
+
+    <div id="graphPanel" class="ui-widget ui-widget-content ui-corner-all">
+        <div id="graph"></div>
+    </div>
+
+    <div id="listPanel">
+        <ul>
+            <li><a href="#tabToDo">ToDo</a></li>
+            <li><a href="#tabBuy">Zakupy</a></li>
+        </ul>
+        <div id="tabToDo">
+        </div>
+        <div id="tabBuy">
+        </div> 
+    </div>
+
+    <div id="descPanel" class="ui-widget ui-widget-content ui-corner-all">
+      <div id="descText"> </div>
+      <div><textarea name="descCkEditor" id="descEdit" rows="10" cols="80" style="display:none;">
+                
+      </textarea></div>
+    </div>
+    
+    <div id="dialog-confirm" title="Empty the recycle bin?">
+      <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>These item will be permanently deleted and cannot be recovered. Are you sure?</p>
+    </div>
+</body>
+
+</html>
