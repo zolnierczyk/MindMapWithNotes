@@ -9,18 +9,62 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <link rel="stylesheet" href="css/style.css" type="text/css">
-    
+    <link rel="stylesheet" href="css/jquery-ui.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.structure.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.theme.css" type="text/css">
+
+
     <script src="js/jquery-2.1.4.js"></script>
+    <script src="js/jquery-ui.js"></script>
     <script src="js/d3.js"></script>
+    <script src="js/ckeditor/ckeditor.js"></script>
     <script src="js/colorbrewer.js"></script>
     <script src="js/geometry.js"></script>
+    <script src="ciachoMap.js"></script>
     <script src="js/script.js"></script>
 </head>
 
-<body>
+<body onLoad="onLoadBody();">
 
-    <div id="graph">
+    <div id="jsonPanel">
+      <form action="" id="nodeProperties">
+      <label for="id">Node id: </label><input type="text" name="id"></input>
+      <label for="name">Name: </label><input type="text" name="name"></input>
+      <label for="type">Type: </label><select name="type"></select>
+      <label for="depands">Depends on: </label><input type="text" name="depands"></input>
+      </form>
+      <a id="formUpdate" href="#">Update</a>
+      <hr/>
+      <form action="" id="newNode">
+      <label for="name">Name: </label><input type="text" name="name"></input>
+      <label for="type">Type: </label><select name="type"></select>
+      <label for="depands">Depends on: </label><input type="text" name="depands"></input>
+      </form>
+      <a id="formCreateNew" href="#">Add subnode</a>
+    </div>
 
+    <div id="graphPanel">
+        <div id="graph"></div>
+    </div>
+
+    <div id="listPanel">
+        <ul>
+            <li><a href="#tabToDo">ToDo</a></li>
+            <li><a href="#tabBuy">Zakupy</a></li>
+        </ul>
+        <div id="tabToDo">
+        </div>
+        <div id="tabBuy">
+        </div> 
+    </div>
+
+    <div id="descPanel">
+      <a id="editNote" href="#">Edit</a>
+      <a id="saveNote" href="#" style="display:none;">Save</a>
+      <div id="descText"> </div>
+      <div><textarea name="descCkEditor" id="descEdit" rows="10" cols="80" style="display:none;">
+                
+      </textarea></div>
     </div>
 </body>
 
