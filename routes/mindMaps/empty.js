@@ -1,0 +1,1 @@
+{"configuration":"{\"title\":\"Pusta mapa\",\"graph\":{\"linkDistance\":150,\"charge\":-400,\"height\":800,\"numColors\":12,\"labelPadding\":{\"left\":3,\"right\":3,\"top\":2,\"bottom\":2},\"labelMargin\":{\"left\":3,\"right\":3,\"top\":2,\"bottom\":2},\"ticksWithoutCollisions\":50},\"types\":{},\"constraints\":[]}","mindMap":"{\"data\" : [] }"}

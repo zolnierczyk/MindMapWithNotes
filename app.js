@@ -9,6 +9,7 @@ var getMindMap = require('./routes/getMindMap');
 var setMindMap = require('./routes/setMindMap');
 var index = require('./routes/index');
 var getAvailableMaps = require('./routes/getAvailableMaps');
+var createMindMap = require('./routes/createMindMap');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/getMindMap', getMindMap);
 app.use('/setMindMap', setMindMap);
 app.use('/', index);
 app.use('/getAvailableMaps', getAvailableMaps);
+app.use('/createMindMap', createMindMap);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

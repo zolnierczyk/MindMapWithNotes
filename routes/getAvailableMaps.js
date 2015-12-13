@@ -13,6 +13,15 @@ router.get('/', function(req, res, next) {
       return;
     }
     console.log(files);
+    var index = files.indexOf('empty.js');
+    if (index > -1) {
+            files.splice(index, 1);
+    }
+    index = files.indexOf('backup');
+    if (index > -1) {
+            files.splice(index, 1);
+    }
+
     res.json(files).end();
 
   });

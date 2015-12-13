@@ -4,7 +4,8 @@ var graph       = {},
     selected    = {},
     highlighted = null,
     isIE        = false,
-    duringEdit  = false;
+    duringEdit  = false,
+    nameOfMindMap = "";
 
     
 function generateGuid() {
@@ -30,9 +31,10 @@ function onLoadBody() {
       .button()
       .click(function( event ) {
         event.preventDefault();
-        var nameOfMap = mindMapTypeSelect.find("option:selected").text();
-        console.log("Map selected : " + nameOfMap);
-        $.getJSON('getMindMap', {name: nameOfMap} , function(data) {
+        nameOfMindMap = mindMapTypeSelect.find("option:selected").text();
+        console.log("Map selected : " + nameOfMindMap);
+        $.getJSON('getMindMap', {name: nameOfMindMap} , function(data) {
+          console.log(data.configuration);
           config = JSON.parse(data.configuration);
           ciachoMap = JSON.parse(data.mindMap);
     
@@ -40,7 +42,16 @@ function onLoadBody() {
        });
     });
   }); 
- 
+  $( "#formAddMindMap" )
+      .button()
+      .click(function( event ) {
+        event.preventDefault();
+        var nameOfNewMindMap = $("#mapAdd").find("input[name='name']").val();
+        console.log("Map created : " + nameOfNewMindMap);
+        $.getJSON('createMindMap', {name: nameOfNewMindMap} , function(data) {
+            onLoadBody();       
+       });
+    });
 }
 
 
@@ -207,7 +218,7 @@ function onMindMapLoaded() {
   .click(function( event ) {
     event.preventDefault();
     
-    $.post('setMindMap',{configuration: JSON.stringify(config) , mindMap: JSON.stringify(ciachoMap)});
+    $.post('setMindMap',{name: nameOfMindMap, configuration: JSON.stringify(config) , mindMap: JSON.stringify(ciachoMap)});
   });
   
   $( "#removeNode" )
