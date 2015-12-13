@@ -43,10 +43,9 @@ function onLoadBody() {
  
 }
 
-function onMindMapLoaded() {
+
   
-  $("#tabToDo").tooltip(); 
- 
+function fillCategorySelect() {
   var propNodeTypeSelect = $("#nodeProperties").find("select[name='type']");
   var newNodeTypeSelect = $("#newNode").find("select[name='type']");
   
@@ -59,18 +58,87 @@ function onMindMapLoaded() {
   
   propNodeTypeSelect.selectmenu();
   newNodeTypeSelect.selectmenu();
+}
+
+function onMindMapLoaded() {
   
-  $( "#formUpdate" )
+  $("#tabToDo").tooltip();
+  
+  var propNodeTypeSelect = $("#nodeProperties").find("select[name='type']");
+  var newNodeTypeSelect = $("#newNode").find("select[name='type']");
+  
+  fillCategorySelect();
+  
+  //$("#nodeProperties").find("input[name='name']").prop("disabled", true);
+  //$("#nodeProperties").find("select[name='type']").selectmenu("option", "disabled", true);
+    
+  $( "#formUpdate" ).hide();
+  $( "#formEditNode" ).show();
+  
+  $( "#formEditNode" )
   .button()
   .click(function( event ) {
     event.preventDefault();
+   
+    if (typeof selected.obj === 'undefined') {
+      return;
+    }
     
+    $( "#dialog-edit-node").attr('title', "Edit node: " + selected.obj.name);
+    $( "#dialog-edit-node" ).dialog({
+      resizable: false,
+      height:400,
+      modal: true,
+      open: function() {
+        var nodeForm = $("#nodeProperties");
+        nodeForm.find("input[name='name']").val(selected.obj.name);
+        nodeForm.find("select[name='type']").val(selected.obj.type).selectmenu('refresh');
+        
+        var bigNodeSelect = nodeForm.find("select[name='nodeDependence']");
+        var selectOptionFill = "";
+        // lol sortowanie tablicy w miejsu więc zmieniamy kolejność elementów!
+        ciachoMap.data.sort(function(a,b) { return a.type < b.type; });
+        var lastType = "";
+        for(var i = 0; i < ciachoMap.data.length ; i+=1) {
+          if (lastType !== ciachoMap.data[i].type) {
+            if (i !== 0 ) { selectOptionFill += "</optgroup>"; }
+            selectOptionFill += "<optgroup label='" + ciachoMap.data[i].type + "'>";
+            lastType = ciachoMap.data[i].type;
+          }
+          selectOptionFill += "<option value='" + ciachoMap.data[i].id + "' ";
+          if (selected.obj.depends.findIndex(function(x){return x === ciachoMap.data[i].id;}) > -1) {
+            selectOptionFill += "selected";
+          }
+          selectOptionFill += ">" + ciachoMap.data[i].name + "</option>";
+        };
+        bigNodeSelect.html(selectOptionFill);
+        
+      },
+      buttons: {
+        "Update node" : function() {    
+          var nodeForm = $("#nodeProperties");
+          if (typeof selected.obj !== 'undefined' && selected.obj ) { 
+              selected.obj.name = nodeForm.find("input[name='name']").val();
+              selected.obj.type = nodeForm.find("select[name='type']").val();
+              
+              selected.obj.depends = nodeForm.find("select[name='nodeDependence']").val();
+              
+              drawGraph();
+          }
+          
+          $( this ).dialog( "close" );
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
     var nodeForm = $("#nodeProperties");
-    selected.obj.name = nodeForm.find("input[name='name']").attr("value");
-    selected.obj.type = nodeForm.find("select[name='type'] option:selected").text();
+    //nodeForm.find("select[name='nodeDependence']").selectmenu();
+    nodeForm.find("select[name='type']").selectmenu();
     
-    drawGraph();
   });
+ 
   
   $( "#formCreateNew" )
   .button()
@@ -129,6 +197,7 @@ function onMindMapLoaded() {
     $( "#descEdit" ).hide();
     $( "#descText" ).html(selected.obj.notes);
     
+    fillToDoList(); 
     duringEdit = false;
   });
   
@@ -180,12 +249,36 @@ function onMindMapLoaded() {
     
   });
   
+  $( "#formAddCategory" )
+  .button()
+  .click(function( event ) {
+    event.preventDefault();
+    var categoryName =   $( "#categoryAdd" ).find("input[name='name']").val();
+
+    config.types[categoryName] = { 
+        short : categoryName,
+        long : categoryName
+    };
+
+    config.constraints.push({
+        has : {type : categoryName},
+        type : 'position',
+        x : '0.5',
+        y : '0.5',
+        weight : '0.7' 
+    });
+    drawGraph();
+    fillCategorySelect();
+  });
+
   $("#listPanel").tabs();
   
   drawGraph();
   
   //    $(window).on('resize', resize);
   //}});
+  
+  fillToDoList();
   
   
 }
@@ -200,21 +293,19 @@ function fillToDoList(){
   todoListPanel.empty();
   for(var name in ciachoMap.data) {
     var node = ciachoMap.data[name];
-    var todoRegex = /TODO: [^#]*/;
-    var todoArray = todoRegex.exec(node.notes);
-    if (todoArray) {
-      for(var i = 0; i < todoArray.length; i+=1) {
-        var todoInsertText = todoArray[i].substring(5,todoArray[i].length);
-        todoListPanel.append("<p title='Node: " + node.name+"'" + 
-                            "style='background-color: "+graph.fillColor(node.type+":") + "; " +
-                                  "padding : 5px ; " +
-                                  "border-style : solid ; " +
-                                  "border-color : "+graph.strokeColor(node.type+":") + "; " +
-                                  "border-width : 1px" + "; '" +
-                            ">" + todoInsertText + "</p>");
-      }
-    }  
+    var todoRegex = /TODO: [^#]*/g;
+    var todoArray;
+    while ((todoArray = todoRegex.exec(node.notes)) !== null) {
+      var todoInsertText = todoArray[0].substring(5,todoArray[0].length);
+      todoListPanel.append("<p title='Node: " + node.name+"'" + 
+                          "style='background-color: "+graph.fillColor(node.type+":") + "; " +
+                                "padding : 5px ; " +
+                                "border-style : solid ; " +
+                                "border-color : "+graph.strokeColor(node.type+":") + "; " +
+                                "border-width : 1px" + "; '" +
+                          ">" + todoInsertText + "</p>");
     }
+  }
 }
 ////////////////////////////////////////////////////////////////// drawGraph
 function drawGraph() {
@@ -259,8 +350,8 @@ function drawGraph() {
                 source : ciachoMap.data.find(function(element){return element.id === obj.depends[depIndex]}),
                 target : obj
             };
-            link.strength = (/*link.source.linkStrength ||*/ 2)
-                          * (/*link.target.linkStrength ||*/ 2);
+            link.strength = (link.source.linkStrength || 1)
+                          * (link.target.linkStrength || 1);
             // Add it to the link table 
             graph.links.push(link);
         }
@@ -756,7 +847,10 @@ function selectObject(obj, el) {
         obj : obj,
         el  : el
     };
-
+  
+  $("#formEditNode").button('option', 'disabled', false);
+  $("#editNote").button('option', 'disabled', false);
+    
   highlightObject(obj);
   
   fillPropertiesForm(obj);
@@ -794,17 +888,17 @@ function selectObject(obj, el) {
 ///////////////////////////////////////////////////////////////////////////////////////
 function fillPropertiesForm(nodeObject)
 {
-  var nodeForm = $("#nodeProperties");
+  //var nodeForm = $("#nodeProperties");
   var nodeFormUpdate = $("#newNode");
   if (nodeObject) {
-    nodeForm.find("input[name='id']").attr("value", nodeObject.id);
-    nodeForm.find("select[name='type']").val(nodeObject.type).selectmenu('refresh');
-    nodeForm.find("input[name='name']").attr("value", nodeObject.name);
+   // nodeForm.find("input[name='id']").attr("value", nodeObject.id);
+   // nodeForm.find("select[name='type']").val(nodeObject.type).selectmenu('refresh');
+   // nodeForm.find("input[name='name']").attr("value", nodeObject.name);
     
     nodeFormUpdate.find("select[name='type']").val(nodeObject.type).selectmenu('refresh');
   } else {
-    nodeForm.find("input[name='id']").attr("value", "");
-    nodeForm.find("input[name='name']").attr("value", "");
+    //nodeForm.find("input[name='id']").attr("value", "");
+    //nodeForm.find("input[name='name']").attr("value", "");
   }
 }
 
@@ -833,6 +927,8 @@ function deselectObject(doResize) {
   selected = {};
   highlightObject(null);
   fillPropertiesForm(null);
+  $("#formEditNode").button('option', 'disabled', true);
+  $("#editNote").button('option', 'disabled', true);
 }
 ///////////////////////////////////////////////////////////////////////////////////
 function visualizeTypeCenter() {
@@ -903,7 +999,7 @@ function recalculateConstrains(){
       // For every node add default constraints properties
       var obj = ciachoMap.data[name];
       obj.positionConstraints = [];
-      obj.linkStrength        = 1;
+      obj.linkStrength        = 3;
 
       if (obj.type !== obj.name) continue; 
       
