@@ -7,19 +7,21 @@ var path = require('path');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   
+  console.log(req.query);
+  if (typeof req.query.name === 'undefined') {
+      res.json({error: 'Name not specyfied.'}).end();
+      return;
+  }
 
   var pathToMindMaps = path.join(__dirname, 'mindMaps');
-  var loadedMindMap = {};
+  var mindMapName = req.query.name;
   
-  console.log (pathToMindMaps);
-  fs.readFile(path.join(pathToMindMaps, 'ciachoMap.js'), 'utf8', function (err,data) {
+  fs.readFile(path.join(pathToMindMaps, mindMapName), 'utf8', function (err,data) {
     if (err) {
-      return console.log(err);
+      console.log(err);
+      res.json({error: 'Failed to extract map.'}).end();
     }
-    loadedMindMap = JSON.parse(data);
-    
-    res.json(loadedMindMap);
-    res.end();
+    res.json(JSON.parse(data)).end();
   });
   
   

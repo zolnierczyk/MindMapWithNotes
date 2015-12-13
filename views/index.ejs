@@ -26,12 +26,19 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <body onLoad="onLoadBody();">
 
     <div id="jsonPanel" class="ui-widget ui-widget-content ui-corner-all">
+      <form action="" id="selectMindMap">
+      <select name="mindMap" title="Name of mind map"></select>
+      </form>
+      <a id="formSelectMap" href="#">Select map</a>
+      <hr/>
+
       <form action="" id="nodeProperties">
       <input type="text" name="name" title="Visible name of node"></input>
       <select name="type" title="Type of node"></select>
       </form>
-      <a id="formUpdate" href="#">Update</a>
+      <a id="formUpdate" href="#">Update</a> 
       <hr/>
+
       <form action="" id="newNode">
       <input type="text" name="name" title="New visible name of node"></input>
       <select name="type" title="Type of node"></select>

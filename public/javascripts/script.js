@@ -15,18 +15,38 @@ function generateGuid() {
 }
 ///////////////////////////////////////////////////////////////// On load function
 function onLoadBody() {
-  $.getJSON('getMindMap', function(data) {
-    config = JSON.parse(data.configuration);
-    ciachoMap = JSON.parse(data.mindMap);
+
+  $.getJSON('getAvailableMaps', function(data) {
+    console.log(data);
+    var mindMapTypeSelect = $("#selectMindMap").find("select[name='mindMap']");
+    var selectOptionFill = "";
+    for (var mapName in data) {
+      selectOptionFill += "<option>" + data[mapName] + "</option>";
+    }
+    mindMapTypeSelect.html(selectOptionFill);
+    mindMapTypeSelect.selectmenu();
+  
+    $( "#formSelectMap" )
+      .button()
+      .click(function( event ) {
+        event.preventDefault();
+        var nameOfMap = mindMapTypeSelect.find("option:selected").text();
+        console.log("Map selected : " + nameOfMap);
+        $.getJSON('getMindMap', {name: nameOfMap} , function(data) {
+          config = JSON.parse(data.configuration);
+          ciachoMap = JSON.parse(data.mindMap);
     
-    onMindMapLoaded();
+          onMindMapLoaded();
+       });
+    });
   }); 
+ 
 }
 
 function onMindMapLoaded() {
   
-  $("#tabToDo").tooltip();
-  
+  $("#tabToDo").tooltip(); 
+ 
   var propNodeTypeSelect = $("#nodeProperties").find("select[name='type']");
   var newNodeTypeSelect = $("#newNode").find("select[name='type']");
   
