@@ -303,7 +303,10 @@ function drawGraph() {
             return graph.fillColor(d.categoryKey);
         })
         .attr('width', 120)
-        .attr('height', 30);
+        .attr('height', 30)
+        .attr('id',function(d) {
+            return d.id;
+        });
 
     graph.node.each(function(d) {
         var node = d3.select(this),
@@ -397,6 +400,11 @@ function drawGraph() {
 
     d3.select("#graph").select("svg").call(zoom);
 
+}
+
+function zoomed() {
+    var svgT = d3.select("#graph").select("svg").select("g");
+    svgT.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
 
 /////////////////////////////////////////////////////////////// wrap

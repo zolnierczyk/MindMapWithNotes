@@ -26,41 +26,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 
 <body onLoad="onLoadBody();">
 
-    <div id="jsonPanel" class="ui-widget ui-widget-content ui-corner-all">
-      <form action="" id="selectMindMap">
-      <select name="mindMap" title="Name of mind map"></select>
-      </form>
-      <a id="formSelectMap" href="#">Select map</a>
-      <hr/>
-
-      <form action="" id="mapAdd">
-      <input type="text" name="name" title="Add mind map"></input>
-  </form>
-      <a id="formAddMindMap" href="#">Add mind map</a>
-      <hr />
-           
-      <form action="" id="categoryAdd">
-      <input type="text" name="name" title="Add category"></input>
-      <a id="formAddCategory" href="#">Add category</a>
-      <hr />
-      <a id="formEditNode" href="#">Edit node</a>
-
-      <form action="" id="newNode">
-      <input type="text" name="name" title="New visible name of node"></input>
-      <select name="type" title="Type of node"></select>
-      </form>
-      <a id="formCreateNew" href="#">Add sub node</a>
-      
-      <div style="position:absolute; bottom:0; left:0;">
-        <a id="uploadMindMap"  href="#">Upload</a>
-        <hr/>
-        <a id="removeNode"  href="#">Remove</a>
-        <hr/>
-        <a id="editNote"  href="#">Edit</a>
-        <a id="saveNote" href="#" style="display:none;">Save</a>
-      </div>
-    </div>
-
     <div id="graphPanel" class="ui-widget ui-widget-content ui-corner-all">
         <div id="graph"></div>
     </div>
@@ -75,25 +40,30 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         <div id="tabBuy">
         </div> 
     </div>
-
-    <div id="descPanel" class="ui-widget ui-widget-content ui-corner-all">
-      <div id="descText"> </div>
-      <div><textarea name="descCkEditor" id="descEdit" rows="10" cols="80" style="display:none;">
-                
-      </textarea></div>
-    </div>
     
-    <div id="dialog-confirm" title="Empty the recycle bin?" style="display:none;">
+    <div id="dialog-confirm" title="Remove this node?" style="display:none;">
       <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>These item will be permanently deleted and cannot be recovered. Are you sure?</p>
     </div>
+    
     <div id="dialog-edit-node" title="Edit node: " style="display:none;">
-       <form action="" id="nodeProperties">
-         <input type="text" name="name" title="Visible name of node"></input>
-         <select name="type" title="Type of node"></select>
-         <select name="nodeDependence" title="Node dependece" multiple style="height: 250px">
-        </select>
-        <p id="actualDependence"><p>
-       </form>
+      <div id="dialogEditTabs">
+        <ul>
+            <li><a href="#tabEditNotes">Notes</a></li>
+            <li><a href="#tabEditProps">Props</a></li>
+        </ul>
+      
+        <div id=tabEditNotes>
+          <div><textarea name="descCkEditor" id="descEdit" rows="10" cols="80" style="display:none;"></textarea></div>
+        </div>
+        <div id=tabEditProps>
+          <form action="" id="nodeProperties">
+            <input type="text" name="name" title="Visible name of node"></input><br/>
+            <select name="type" title="Type of node"></select><br/>
+            <select name="nodeDependence" title="Node dependece" multiple style="height: 250px"></select><br/>
+            <p id="actualDependence"><p>
+          </form>
+        </div>
+      </div>
     </div>
 </body>
 
