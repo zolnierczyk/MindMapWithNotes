@@ -9,18 +9,19 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <link rel="stylesheet" href="stylesheets/style.css" type="text/css">
-    <link rel="stylesheet" href="stylesheets/jquery-ui.css" type="text/css">
-    <link rel="stylesheet" href="stylesheets/jquery-ui.structure.css" type="text/css">
-    <link rel="stylesheet" href="stylesheets/jquery-ui.theme.css" type="text/css">
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/eggplant/jquery-ui.css" type="text/css">
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/eggplant/theme.css" type="text/css">
 
 
-    <script src="javascripts/jquery-2.1.4.js"></script>
-    <script src="javascripts/jquery-ui.js"></script>
-    <script src="javascripts/d3.js"></script>
-    <script src="javascripts/ckeditor/ckeditor.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/ckeditor/ckeditor.js"></script>
+    <script src="bower_components/ui-contextmenu/jquery.ui-contextmenu.js"></script>
     <script src="javascripts/colorbrewer.js"></script>
     <script src="javascripts/geometry.js"></script>
     <script src="javascripts/script.js"></script>
+    <script src="javascripts/mapLogic.js"></script>
 </head>
 
 <body onLoad="onLoadBody();">
@@ -48,7 +49,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
       <input type="text" name="name" title="New visible name of node"></input>
       <select name="type" title="Type of node"></select>
       </form>
-      <a id="formCreateNew" href="#">Add subnode</a>
+      <a id="formCreateNew" href="#">Add sub node</a>
       
       <div style="position:absolute; bottom:0; left:0;">
         <a id="uploadMindMap"  href="#">Upload</a>
