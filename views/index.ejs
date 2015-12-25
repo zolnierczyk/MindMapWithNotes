@@ -22,6 +22,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     <script src="javascripts/geometry.js"></script>
     <script src="javascripts/script.js"></script>
     <script src="javascripts/mapLogic.js"></script>
+    <script src="javascripts/serverFunctions.js"></script>
 </head>
 
 <body onLoad="onLoadBody();">
@@ -65,6 +66,13 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         </div>
       </div>
     </div>
-</body>
+
+    <div id="dialog-create-new-map" title="Create new mind map: " style="display:none;">
+      <form action="" id="createNewMindForm">
+        <input type="text" name="name" title="Name of new map:"></input>
+      </form>
+    </div>
+    
+  </body>
 
 </html>

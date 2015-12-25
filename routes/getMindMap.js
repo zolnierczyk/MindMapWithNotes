@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
       res.json({error: 'Name not specyfied.'}).end();
       return;
   }
-
+  
   var pathToMindMaps = path.join(__dirname, 'mindMaps');
   var mindMapName = req.query.name;
   
