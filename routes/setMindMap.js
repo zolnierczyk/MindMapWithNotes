@@ -14,16 +14,24 @@ router.post('/', function(req, res, next) {
   var pathToBackup = path.join(pathToMindMaps, 'backup');
   fs.writeFile(path.join(pathToMindMaps, nameOfMindMap), dataToSave, function (err,data) {
     if (err) {
-      return console.log(err);
+      console.log(err);
+      res.json({error: err}).end();
+      return;
     }
     console.log("Write ok : " + nameOfMindMap);
+    
+    res.status(200).end();
   });
   
-  fs.writeFile(path.join(pathToBackup, nameOfMindMap + '.' + Date.now()), dataToSave, function (err,data) {
+  var nameOfBackup = nameOfMindMap + '.' + Date.now();
+  fs.writeFile(path.join(pathToBackup, nameOfBackup), dataToSave, function (err,data) {
     if (err) {
-      return console.log(err);
+      console.log(err);
+      return
     }
-    console.log("Write backup ok : " + nameOfMindMap);
+    console.log("Write backup ok : " + nameOfBackup);
+    
+    res.status(200).end();
   });
   
 });

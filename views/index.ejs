@@ -42,6 +42,10 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         </div> 
     </div>
     
+    <div id="loggingPanel">
+    
+    </div>
+    
     <div id="dialog-confirm" title="Remove this node?" style="display:none;">
       <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>These item will be permanently deleted and cannot be recovered. Are you sure?</p>
     </div>
@@ -66,12 +70,45 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         </div>
       </div>
     </div>
+    
+    <div id="dialog-edit-categories" title="Edit categories " style="display:none;">
+      <div id="dialogEditCat">
+        <ul>
+            <li><a href="#tabEditCatAll">All table</a></li>
+            <li><a href="#tabEditCatProps">Properties</a></li>
+        </ul>
+      
+        <div id="tabEditCatAll">
+          <table id="tableWithAllCat">
+          
+          </table>
+        </div>
+        
+        <div id="tabEditCatProps">
+        </div>
+      </div>
+    </div>
 
+    <div id="dialog-add-category" title="Add new category: " style="display:none;">
+      <form action="" id="addCategoryForm">
+        <label for="name">Name of new category<label>
+        <input type="text" name="name" title="Name of new category:"></input>
+      </form>
+    </div>
+    
+    <div id="dialog-remove-category" title="Remove category node: " style="display:none;">
+      <form action="" id="removeCategoryForm">
+        <label for="type">Category to remove:</label>
+        <select name="type" title="Category to remove"></select><br/>
+      </form>
+    </div>
+    
     <div id="dialog-create-new-map" title="Create new mind map: " style="display:none;">
       <form action="" id="createNewMindForm">
         <input type="text" name="name" title="Name of new map:"></input>
       </form>
     </div>
+    
     
   </body>
 

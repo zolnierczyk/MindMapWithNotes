@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
   fs.readdir(pathToMindMaps, function (err, files) {
     if (err) {
       console.log(err);
+      res.json({error: err}).end();
       return;
     }
     console.log(files);

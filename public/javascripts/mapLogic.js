@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////// Global variables
 var graph = {}
-    isIE = false;
+isIE = false;
 
 
 function generateGuid() {
@@ -257,28 +257,28 @@ function drawGraph() {
         .enter().append('g')
         .attr('class', 'node')
         .call(graph.drag);
-        
-        /*.on('mouseover', function(d) {
-            if (!selected.obj) {
-                if (graph.mouseoutTimeout) {
-                    clearTimeout(graph.mouseoutTimeout);
-                    graph.mouseoutTimeout = null;
-                }
-                highlightObject(d);
+
+    /*.on('mouseover', function(d) {
+        if (!selected.obj) {
+            if (graph.mouseoutTimeout) {
+                clearTimeout(graph.mouseoutTimeout);
+                graph.mouseoutTimeout = null;
             }
-        })
-        .on('mouseout', function() {
-            if (!selected.obj) {
-                if (graph.mouseoutTimeout) {
-                    clearTimeout(graph.mouseoutTimeout);
-                    graph.mouseoutTimeout = null;
-                }
-                graph.mouseoutTimeout = setTimeout(function() {
-                    highlightObject(null);
-                }, 300);
+            highlightObject(d);
+        }
+    })
+    .on('mouseout', function() {
+        if (!selected.obj) {
+            if (graph.mouseoutTimeout) {
+                clearTimeout(graph.mouseoutTimeout);
+                graph.mouseoutTimeout = null;
             }
-        });
-        */
+            graph.mouseoutTimeout = setTimeout(function() {
+                highlightObject(null);
+            }, 300);
+        }
+    });
+    */
 
     graph.nodeRect = graph.node.append('rect')
         .attr('rx', 5)
@@ -291,7 +291,7 @@ function drawGraph() {
         })
         .attr('width', 120)
         .attr('height', 30)
-        .attr('id',function(d) {
+        .attr('id', function(d) {
             return d.id;
         });
 
@@ -651,42 +651,44 @@ function recalculateConstrains() {
 }
 
 function removeNodeAndSubNodeFromMap(nodeId) {
-  var recurenceRemoveById = function(nodeIdToRemove) {
-    console.log('Removing id: ' + nodeIdToRemove);
-    if (typeof nodeIdToRemove === 'undefined') {
-      return false;
-    }
-    var nodeIndexToRemove = ciachoMap.data.findIndex(function(x){return x.id === nodeIdToRemove});
-    if (nodeIndexToRemove == -1) {
-      console.log('Already removed');
-      return false;
-    }
-    var nodeToRemove = ciachoMap.data[nodeIndexToRemove];
-    console.log('Removing index: ' + nodeIndexToRemove + ' with name: ' + nodeToRemove.name);
-    
-    ciachoMap.data.splice(nodeIndexToRemove, 1);
-    var dependsIndexToRemove;
-    var nodesIdToRemoveAlso = [];
-    for (var i = 0; i < ciachoMap.data.length; i += 1) {
-        dependsIndexToRemove = ciachoMap.data[i].depends.findIndex(function(x) {
-            return x === nodeToRemove.id;
-        });
-        if (typeof dependsIndexToRemove !== 'undefined' && dependsIndexToRemove != -1) {
-          console.log('Removing depends from ' + ciachoMap.data[i].name + ' index: ' + dependsIndexToRemove);
-          ciachoMap.data[i].depends.splice(dependsIndexToRemove, 1);
-          if(ciachoMap.data[i].depends.length === 0) {
-            console.log('No more depends! Selecting to remove');
-            nodesIdToRemoveAlso.push(ciachoMap.data[i].id);
-          }
-          dependsIndexToRemove = undefined;
+    var recurenceRemoveById = function(nodeIdToRemove) {
+        console.log('Removing id: ' + nodeIdToRemove);
+        if (typeof nodeIdToRemove === 'undefined') {
+            return false;
         }
-    };
-    for(var j = 0 ; j < nodesIdToRemoveAlso.length; j +=1) {
-      recurenceRemoveById(nodesIdToRemoveAlso[j]);                
-    }
-    
-    return true;
-  };
+        var nodeIndexToRemove = ciachoMap.data.findIndex(function(x) {
+            return x.id === nodeIdToRemove
+        });
+        if (nodeIndexToRemove == -1) {
+            console.log('Already removed');
+            return false;
+        }
+        var nodeToRemove = ciachoMap.data[nodeIndexToRemove];
+        console.log('Removing index: ' + nodeIndexToRemove + ' with name: ' + nodeToRemove.name);
 
-  recurenceRemoveById(nodeId);
+        ciachoMap.data.splice(nodeIndexToRemove, 1);
+        var dependsIndexToRemove;
+        var nodesIdToRemoveAlso = [];
+        for (var i = 0; i < ciachoMap.data.length; i += 1) {
+            dependsIndexToRemove = ciachoMap.data[i].depends.findIndex(function(x) {
+                return x === nodeToRemove.id;
+            });
+            if (typeof dependsIndexToRemove !== 'undefined' && dependsIndexToRemove != -1) {
+                console.log('Removing depends from ' + ciachoMap.data[i].name + ' index: ' + dependsIndexToRemove);
+                ciachoMap.data[i].depends.splice(dependsIndexToRemove, 1);
+                if (ciachoMap.data[i].depends.length === 0) {
+                    console.log('No more depends! Selecting to remove');
+                    nodesIdToRemoveAlso.push(ciachoMap.data[i].id);
+                }
+                dependsIndexToRemove = undefined;
+            }
+        };
+        for (var j = 0; j < nodesIdToRemoveAlso.length; j += 1) {
+            recurenceRemoveById(nodesIdToRemoveAlso[j]);
+        }
+
+        return true;
+    };
+
+    recurenceRemoveById(nodeId);
 }

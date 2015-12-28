@@ -9,7 +9,7 @@ body {
 }
 
 .topzindex {
-    z-index:100;
+    z-index: 100;
 }
 
 input {
@@ -21,7 +21,7 @@ input {
     height: 100%;
     position: relative;
     float: left;
-   /* visibility: hidden;*/
+    /* visibility: hidden;*/
     z-index: 1;
 }
 
@@ -38,11 +38,21 @@ input {
     z-index: 10;
 }
 
-/* This is style of line between nodes */
+#loggingPanel {
+    left: 10px;
+    bottom: 20px;
+    position: absolute;
+    float: none;
+    z-index: 20;
+}
 
 .link {
     stroke: black;
     stroke-width: 2;
+}
+
+.linkToSelected {
+  stroke-width: 3;
 }
 
 .selected {
