@@ -75,6 +75,16 @@ module.exports = function(grunt) {
               endWithNewline: true
           }
       }
+    },
+    bower: {
+      dev: {
+        dest: 'public/',
+        js_dest: 'public/javascripts/',
+        css_dest: 'public/stylesheets/',
+        options: {
+          expand: true
+        }
+      }
     }
   });
 
@@ -83,6 +93,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks("grunt-jsbeautifier");
+  grunt.loadNpmTasks('grunt-bower');
 
   grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
 

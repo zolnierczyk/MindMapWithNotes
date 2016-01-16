@@ -1,0 +1,9 @@
+{
+      "apps" : [{
+        "name"        : "mindMap",
+        "script"      : "bin/www",
+        "watch"       : "['../routes', '../views', 'app.js']",
+	"ignore_watch": "['../routes/mindMap']",
+        "log_date_format"  : "YYYY-MM-DD HH:mm Z",
+      }]
+}
