@@ -4,12 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var passport = require('passport')
+var LocalStrategy = require('passport-local').Strategy;
+var db = require('./db');
 
 var getMindMap = require('./routes/getMindMap');
 var setMindMap = require('./routes/setMindMap');
-var index = require('./routes/index');
+var mind = require('./routes/index');
 var getAvailableMaps = require('./routes/getAvailableMaps');
 var createMindMap = require('./routes/createMindMap');
+var innerUnivers = require('./routes/innerUnivers');
 
 var app = express();
 
@@ -24,12 +29,48 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true, limit: '1000kb' }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(session({ secret: 'mindUniverse', resave: false, saveUninitialized: false }));
 
 app.use('/getMindMap', getMindMap);
 app.use('/setMindMap', setMindMap);
-app.use('/', index);
 app.use('/getAvailableMaps', getAvailableMaps);
 app.use('/createMindMap', createMindMap);
+app.use('/', innerUnivers);
+app.use('/mind', mind);
+
+app.post('/login',
+  passport.authenticate('local', { successRedirect: '/mind',
+                                   failureRedirect: '/',
+                                   failureFlash: true })
+);
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  db.users.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
