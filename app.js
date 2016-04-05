@@ -11,7 +11,7 @@ var db = require('./db');
 
 var getMindMap = require('./routes/getMindMap');
 var setMindMap = require('./routes/setMindMap');
-var mind = require('./routes/index');
+var mind = require('./routes/mind');
 var getAvailableMaps = require('./routes/getAvailableMaps');
 var createMindMap = require('./routes/createMindMap');
 var innerUnivers = require('./routes/innerUnivers');
@@ -40,10 +40,10 @@ app.use('/createMindMap', createMindMap);
 app.use('/', innerUnivers);
 app.use('/mind', mind);
 
+
 app.post('/login',
   passport.authenticate('local', { successRedirect: '/mind',
-                                   failureRedirect: '/',
-                                   failureFlash: true })
+                                   failureRedirect: '/'})
 );
 
 passport.serializeUser(function(user, cb) {
@@ -59,12 +59,12 @@ passport.deserializeUser(function(id, cb) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
+    db.users.findByUsername( username, function(err, user) {
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.validPassword(password)) {
+      if (! user.password === password) {          
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);

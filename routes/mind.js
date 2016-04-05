@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var guard = require('connect-ensure-login');
 
 /* GET home page. */
 router.get('/',
-           require('connect-ensure-login').ensureLoggedIn(),
+           //guard.ensureLoggedIn('/'),
            function(req, res, next) {
-  res.render('index', {  });
+  res.render('mind', {  });
 });
 
 module.exports = router;
