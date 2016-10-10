@@ -2,7 +2,7 @@ const express = require("express"),
     router = express.Router();
 
 router.get("/", (req, res) => {
-    res.render("innerUniverse", { });
+    res.render("main", { });
 });
 
 module.exports = router;
