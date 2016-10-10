@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express"),
+    router = express.Router();
 
-router.get('/', function(req, res, next) {
-  res.render('innerUniverse', {  });
+router.get("/", (req, res) => {
+    res.render("innerUniverse", { });
 });
 
 module.exports = router;

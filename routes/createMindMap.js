@@ -1,23 +1,21 @@
-var express = require('express');
-var router = express.Router();
-var fs = require('fs');
-var path = require('path');
+const express = require("express"),
+    fs = require("fs"),
+    path = require("path");
 
-router.get('/', function(req, res, next) {
+const router = express.Router();
 
-  console.log(req.query);
-  if (typeof req.query.name === 'undefined') {
-      res.json({error: 'Name not specified.'}).end();
-      return;
-  }
-  
-  var pathToMindMaps = path.join(__dirname, 'mindMaps');
-  console.log(pathToMindMaps);
-  
-  fs.createReadStream(path.join(pathToMindMaps, 'empty.js'))
-    .pipe(fs.createWriteStream(path.join(pathToMindMaps, req.query.name)));
+router.get("/", (req, res) => {
 
-  
+    if (typeof req.query.name === "undefined") {
+        res.json({"error": "Name not specified."}).end();
+
+        return;
+    }
+
+    const pathToMindMaps = path.join(__dirname, "mindMaps");
+
+    fs.createReadStream(path.join(pathToMindMaps, "empty.js"))
+        .pipe(fs.createWriteStream(path.join(pathToMindMaps, req.query.name)));
 });
 
 module.exports = router;

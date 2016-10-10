@@ -1,32 +1,33 @@
-var express = require('express');
-var router = express.Router();
-var fs = require('fs');
-var path = require('path');
+"use strict";
 
-router.get('/', function(req, res, next) {
+const express = require("express"),
+    fs = require("fs"),
+    path = require("path");
 
-  var pathToMindMaps = path.join(__dirname, 'mindMaps');
-  console.log(pathToMindMaps);
-  fs.readdir(pathToMindMaps, function (err, files) {
-    if (err) {
-      console.log(err);
-      res.json({error: err}).end();
-      return;
-    }
-    console.log(files);
-    var index = files.indexOf('empty.js');
-    if (index > -1) {
+const router = express.Router();
+
+router.get("/", (req, res) => {
+
+    const pathToMindMaps = path.join(__dirname, "mindMaps");
+
+    fs.readdir(pathToMindMaps, (err, files) => {
+        if (err) {
+            res.json({"error": err}).end();
+
+            return;
+        }
+        let index = files.indexOf("empty.js");
+
+        if (index > -1) {
             files.splice(index, 1);
-    }
-    index = files.indexOf('backup');
-    if (index > -1) {
+        }
+        index = files.indexOf("backup");
+        if (index > -1) {
             files.splice(index, 1);
-    }
+        }
+        res.json(files).end();
+    });
 
-    res.json(files).end();
-
-  });
-  
 });
 
 module.exports = router;
