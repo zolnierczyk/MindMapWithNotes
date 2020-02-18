@@ -1,29 +1,20 @@
-# README #
+# MindMapWithNotes
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## Project status
 
-### What is this repository for? ###
+Project is outdated but I will return to it someday.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Description
 
-### How do I get set up? ###
+Is experimental project which implement simple mind map
+with editor which allows you to write long and feature
+rich notes for every node. Implementation of server is based
+on nodejs `express`. Page is using `d3` libray to display
+tree and `ckeditor` to make notes.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Main purpose of this project was to learn web technology stack.
 
-### Contribution guidelines ###
+## I like the project idea
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Please checkout this page: [https://www.mindmeister.com](https://www.mindmeister.com)
+This product is based on the same idea and I am currently using it.
